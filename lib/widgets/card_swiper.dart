@@ -15,7 +15,7 @@ class CardSwiper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final size = MediaQuery.of( context ).size; 
+    final size = MediaQuery.of( context ).size;
 
     return Container(
 
@@ -30,7 +30,6 @@ class CardSwiper extends StatelessWidget {
         itemBuilder: ( _ , int index ){
 
           final movie = movies[index];
-          print(movie.showPosterImg);
 
           return GestureDetector(
             onTap: () => Navigator.pushNamed( context, 'details', arguments: 'movie-instance' ),
