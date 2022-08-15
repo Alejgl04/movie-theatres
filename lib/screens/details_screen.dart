@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies/widgets/widgets.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({Key? key}) : super(key: key);
@@ -16,6 +17,11 @@ class DetailsScreen extends StatelessWidget {
             delegate: SliverChildListDelegate(
               [
                 _PosterAndTitle(),
+                _Overview(),
+                _Overview(),
+                _Overview(),
+                const CastingCards()
+
               ]
             ),
           ),
@@ -42,6 +48,7 @@ class _CustomAppBar extends StatelessWidget {
         title: Container(
           color: Colors.black12,
           width: double.infinity,
+          padding: const EdgeInsets.only( bottom: 10 ),
           alignment: Alignment.bottomCenter,
           child: const Text('movie.title', style: TextStyle( fontSize: 16 )),
         ),
@@ -94,6 +101,22 @@ class _PosterAndTitle extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class _Overview extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: null,
+      padding: const EdgeInsets.symmetric( horizontal: 25, vertical: 15 ),
+      child: Text(
+        'Dolore incididunt tempor veniam ea qui esse ad in.Dolore incididunt tempor veniam ea qui esse ad in.Dolore incididunt tempor veniam ea qui esse ad in.Dolore incididunt tempor veniam ea qui esse ad in.Dolore incididunt tempor veniam ea qui esse ad in.Dolore incididunt tempor veniam ea qui esse ad in.Dolore incididunt tempor veniam ea qui esse ad in.',
+        textAlign: TextAlign.justify,
+        style: Theme.of(context).textTheme.subtitle1,
+        )
     );
   }
 }
