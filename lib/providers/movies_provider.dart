@@ -2,46 +2,50 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:movies/models/models.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 
 class MoviesProvider extends ChangeNotifier {
 
-  final String _apiKey   = '4afd2e2e11902828117b24035dbb20d6';
+  final String? _apiKey   = dotenv.env['APIKEYDB'];
   final String _baseUrl  = 'api.themoviedb.org';
   final String _language = 'en-US';
 
   List<Movie> onDisplayMovies = [];
   List<Movie> popularMovies   = [];
 
+  int _popularPage = 0;
+
   MoviesProvider() {
     getOnDisplayMovies();
     getPopularMovies();
   }
 
-  getOnDisplayMovies() async {
-    var url = Uri.https(_baseUrl, '3/movie/now_playing', {
+  Future<String> _getJsonData( String endpoint, [int page = 1] ) async {
+    var url = Uri.https(_baseUrl, endpoint, {
       'api_key': _apiKey,
       'language': _language,
-      'page':'1'
+      'page': '$page'
       
     });
     // Await the http get response, then decode the json-formatted response.
     final response = await http.get(url);
-    final nowPlayingResponse = NowPlayingResponse.fromJson(response.body);
+    return response.body;
+  }
+
+  getOnDisplayMovies() async {
+    final dataResponse = await _getJsonData('3/movie/now_playing');
+    final nowPlayingResponse = NowPlayingResponse.fromJson( dataResponse );
 
     onDisplayMovies = nowPlayingResponse.results;
+
     notifyListeners();
   }
 
   getPopularMovies() async {
-    var url = Uri.https(_baseUrl, '3/movie/popular', {
-      'api_key': _apiKey,
-      'language': _language,
-      'page':'1'
-      
-    });
-    // Await the http get response, then decode the json-formatted response.
-    final response = await http.get(url);
-    final popularResponse = PopularResponse.fromJson(response.body);
+    _popularPage++;
+    final dataResponse = await _getJsonData('3/movie/popular', _popularPage);
+    final popularResponse = PopularResponse.fromJson(dataResponse);
 
     popularMovies = [ ...popularMovies ,...popularResponse.results];
     notifyListeners();

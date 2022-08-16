@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:provider/provider.dart';
 
 import 'package:movies/screens/screens.dart';
@@ -6,8 +8,11 @@ import 'package:movies/providers/movies_provider.dart';
 
 
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: "assets/.env");
+
   runApp(const AppState());
+  
 }
 
 class AppState extends StatelessWidget {
