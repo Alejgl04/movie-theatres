@@ -43,6 +43,15 @@ class Movie {
     }
   }
 
+  get showBackDropPath {
+    if ( posterPath != null ) {
+      return 'https://image.tmdb.org/t/p/w500/$backdropPath';
+    }
+    else{
+      return 'https://i.stack.imgur.com/GNhxO.png';
+    }
+  }
+
   factory Movie.fromJson(String str) => Movie.fromMap(json.decode(str));
 
   factory Movie.fromMap(Map<String, dynamic> json) => Movie(
