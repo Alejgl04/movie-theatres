@@ -2,17 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:movies/models/models.dart';
 
 
-class MovieSlider extends StatelessWidget {
+class MovieSlider extends StatefulWidget {
   final List<Movie> movies;
   final String? title;
+  final Function onNextPage;
+
   const MovieSlider({
     Key? key, 
-    required this.movies, this.title,
+    required this.movies,
+    required this.onNextPage,
+    this.title, 
   }) : super(key: key);
+
+  @override
+  State<MovieSlider> createState() => _MovieSliderState();
+}
+
+class _MovieSliderState extends State<MovieSlider> {
+  final ScrollController scrollControler = ScrollController();
+  @override
+  void initState() {
+    super.initState();
+
+    scrollControler.addListener(() {
+
+      if ( scrollControler.position.pixels >= scrollControler.position.maxScrollExtent - 500 ) {
+        widget.onNextPage();
+      }
+
+    });
+
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+  }
   
   @override
   Widget build(BuildContext context) {
-
+    if( widget.movies.isEmpty ) {
+      return Container(
+        color: null,
+        width: double.infinity,
+        height: 260,
+        child: const Center(child: CircularProgressIndicator()),
+      );
+    }
     return Container(
       width: double.infinity,
       height: 260,
@@ -20,19 +57,20 @@ class MovieSlider extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if( title != null )
+          if( widget.title != null )
             Padding(
               padding: const EdgeInsets.symmetric( horizontal: 20 ),
-              child: Text(title!, style: const TextStyle( fontSize: 20, fontWeight: FontWeight.bold )),
+              child: Text(widget.title!, style: const TextStyle( fontSize: 20, fontWeight: FontWeight.bold )),
             ),
           
           const SizedBox( height: 10 ),
 
           Expanded(
             child: ListView.builder(
+              controller: scrollControler,
               scrollDirection: Axis.horizontal,
-              itemCount: movies.length,
-              itemBuilder: ( _, int index) => _MoviesPoster(movies[index])
+              itemCount: widget.movies.length,
+              itemBuilder: ( _, int index) => _MoviesPoster(widget.movies[index])
             ),
           )
 
