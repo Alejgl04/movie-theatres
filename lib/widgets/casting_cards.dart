@@ -27,29 +27,17 @@ class CastingCards extends StatelessWidget {
             ),
           );
         }
-        else if (snapshot.hasError) {
-          return Center(
-            child: Container(
-              color: null,
-              height: 180,
-              width: 100,
-              child: const Text('Loading....'),
-            ),
-          );
-        }
-        else {
-          final List<Cast> cast = snapshot.data!;
-          return Container(
-            margin: const EdgeInsets.only( bottom: 30 ),
-            width: double.infinity,
-            height: 180,
-            child: ListView.builder(
-              itemCount: 10,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: ( _, int index ) => _CastCard( cast[index]  )
-            ),
-          );
-        }
+        final List<Cast> cast = snapshot.data!;
+        return Container(
+          margin: const EdgeInsets.only( bottom: 30 ),
+          width: double.infinity,
+          height: 180,
+          child: ListView.builder(
+            itemCount: cast.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: ( _, int index ) => _CastCard( cast[index]  )
+          ),
+        );
       },  
     );
 
@@ -59,7 +47,6 @@ class CastingCards extends StatelessWidget {
 class _CastCard extends StatelessWidget {
   final Cast actor;
   const _CastCard(this.actor);
-
 
   @override
   Widget build(BuildContext context) {
