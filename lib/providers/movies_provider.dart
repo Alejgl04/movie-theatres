@@ -23,7 +23,7 @@ class MoviesProvider extends ChangeNotifier {
   int _popularPage = 0;
 
   final debouncer = Debouncer(
-    duration: Duration(milliseconds: 500),
+    duration: const Duration(milliseconds: 500),
     onValue: ( value ) {
       
     } 
