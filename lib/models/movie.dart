@@ -44,7 +44,7 @@ class Movie {
   }
 
   get showBackDropPath {
-    if ( posterPath != null ) {
+    if ( backdropPath != null ) {
       return 'https://image.tmdb.org/t/p/w500/$backdropPath';
     }
     else{

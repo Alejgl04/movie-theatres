@@ -17,8 +17,17 @@ class CastingCards extends StatelessWidget {
     return FutureBuilder(
       future: moviesProvider.getMovieCast(movieId),
       builder: (_, AsyncSnapshot<List<Cast>> snapshot) {
-
         if( !snapshot.hasData ) {
+          return Center(
+            child: Container(
+              color: null,
+              height: 180,
+              width: 100,
+              child: const Text('There is not actors to show'),
+            ),
+          );
+        }
+        else if (snapshot.hasError) {
           return Center(
             child: Container(
               color: null,
@@ -28,19 +37,19 @@ class CastingCards extends StatelessWidget {
             ),
           );
         }
-
-        final List<Cast> cast = snapshot.data!;
-
-        return Container(
-          margin: const EdgeInsets.only( bottom: 30 ),
-          width: double.infinity,
-          height: 180,
-          child: ListView.builder(
-            itemCount: 10,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: ( _, int index ) => _CastCard( cast[index] )
-          ),
-        );
+        else {
+          final List<Cast> cast = snapshot.data!;
+          return Container(
+            margin: const EdgeInsets.only( bottom: 30 ),
+            width: double.infinity,
+            height: 180,
+            child: ListView.builder(
+              itemCount: 10,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: ( _, int index ) => _CastCard( cast[index]  )
+            ),
+          );
+        }
       },  
     );
 
